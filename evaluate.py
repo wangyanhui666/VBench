@@ -108,6 +108,7 @@ def main():
 
     dist_init()
     print0(f'args: {args}')
+    rank=torch.distributed.get_rank()
     device = torch.device("cuda")
     my_VBench = VBench(device, args.full_json_dir, args.output_path)
     
@@ -138,7 +139,7 @@ def main():
 
     my_VBench.evaluate(
         videos_path = args.videos_path,
-        name = f'results_{current_time}',
+        name = f'results_rank{rank}_{current_time}',
         prompt_list=prompt, # pass in [] to read prompt from filename
         dimension_list = args.dimension,
         local=args.load_ckpt_from_local,
