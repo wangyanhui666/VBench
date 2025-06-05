@@ -1,11 +1,11 @@
 #!/bin/bash
-
+export NCCL_TIMEOUT=1800 # 设置为 30 分钟
 # Define the model list
 model_paths=("full_attention/0528_full_attention_flowmaching_guide_scale6_shift3.0" "sparse_attention_STA/0530_SAwindow222_flowmaching_guide_scale6_shift3.0" "sparse_attention_ours/0530_SAwindow222_flowmaching_guide_scale6_shift3.0")
 
 # Define the dimension list
-dimensions=("subject_consistency" "background_consistency" "aesthetic_quality" "imaging_quality" "object_class" "multiple_objects" "color" "spatial_relationship" "scene" "temporal_style" "overall_consistency" "human_action" "temporal_flickering" "motion_smoothness" "dynamic_degree" "appearance_style")
-
+# dimensions=("subject_consistency" "background_consistency" "aesthetic_quality" "imaging_quality" "object_class" "multiple_objects" "color" "spatial_relationship" "scene" "temporal_style" "overall_consistency" "human_action" "temporal_flickering" "motion_smoothness" "dynamic_degree" "appearance_style")
+dimensions=("imaging_quality" "object_class" "multiple_objects" "color" "spatial_relationship" "scene" "temporal_style" "overall_consistency" "human_action" "motion_smoothness" "dynamic_degree")
 # Base path for videos
 base_path='/mnt/shangcephfs/wangyanhui/distillation/VBench/' # TODO: change to local path
 
@@ -67,9 +67,9 @@ for model in "${model_paths[@]}"; do
             continue
         fi
 
-        echo "    Executing: torchrun --nproc_per_node=8 --standalone evaluate.py --videos_path \"$videos_path\" --dimension \"$dimension\" --output_path \"$dimension_specific_output_path\""
+        echo "    Executing: torchrun --nproc_per_node=1 --standalone evaluate.py --videos_path \"$videos_path\" --dimension \"$dimension\" --output_path \"$dimension_specific_output_path\""
         # Run the evaluation script and redirect its stdout and stderr to the log file
-        torchrun --nproc_per_node=8 --standalone evaluate.py --videos_path "$videos_path" --dimension "$dimension" --output_path "$dimension_specific_output_path" > "$log_file" 2>&1
+        torchrun --nproc_per_node=1 --standalone evaluate.py --videos_path "$videos_path" --dimension "$dimension" --output_path "$dimension_specific_output_path" > "$log_file" 2>&1
         
         # Optional: Check exit status of torchrun
         if [ $? -ne 0 ]; then

@@ -67,6 +67,7 @@ def background_consistency(clip_model, preprocess, video_list, device, read_fram
 
 def compute_background_consistency(json_dir, device, submodules_list, **kwargs):
     vit_path, read_frame = submodules_list[0], submodules_list[1]
+    print(f'Using CLIP model from {vit_path}')
     clip_model, preprocess = clip.load(vit_path, device=device)
     video_list, _ = load_dimension_info(json_dir, dimension='background_consistency', lang='en')
     video_list = distribute_list_to_rank(video_list)
