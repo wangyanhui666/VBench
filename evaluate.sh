@@ -1,7 +1,8 @@
 #!/bin/bash
 export NCCL_TIMEOUT=1800 # 设置为 30 分钟
 # Define the model list
-model_paths=("full_attention/0528_full_attention_flowmaching_guide_scale6_shift3.0" "sparse_attention_STA/0530_SAwindow222_flowmaching_guide_scale6_shift3.0" "sparse_attention_ours/0530_SAwindow222_flowmaching_guide_scale6_shift3.0")
+wget https://huggingface.co/lalala125/AMT/resolve/main/amt-s.pth -P ~/.cache/vbench/amt_model
+model_paths=("full_attention/0607_full_attention_unipc_guide_scale6_shift3.0_useaugmented_prompts")
 
 # Define the dimension list
 # dimensions=("subject_consistency" "background_consistency" "aesthetic_quality" "imaging_quality" "object_class" "multiple_objects" "color" "spatial_relationship" "scene" "temporal_style" "overall_consistency" "human_action" "temporal_flickering" "motion_smoothness" "dynamic_degree" "appearance_style")
